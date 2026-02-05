@@ -21,6 +21,7 @@ export default function StudentDetail() {
 
   const studentOrders = orders.filter((order) => order.studentId === studentId);
 
+  // ✅ NEW: safety check
   if (!student) {
     return <p>Student not found</p>;
   }
@@ -33,6 +34,7 @@ export default function StudentDetail() {
 
       {/* STUDENT SUMMARY */}
       <div className="student-summary-card">
+        {/* ✅ CHANGED: dynamic student data */}
         <h1 className="student-name">{student.name}</h1>
         <p className="student-code">Referral Code: {student.referralCode}</p>
 
@@ -46,6 +48,7 @@ export default function StudentDetail() {
       <div className="orders-section">
         <h2 className="section-title">Order History</h2>
 
+        {/* ✅ NEW: show message if no orders */}
         {studentOrders.length === 0 ? (
           <p>No orders yet</p>
         ) : (
