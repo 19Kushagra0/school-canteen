@@ -3,6 +3,8 @@
   min-height: 100vh;
   background-color: #f5f7fb;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  color: black;
 }
 
 /* BACK LINK */
@@ -136,4 +138,22 @@
     align-items: flex-start;
     gap: 6px;
   }
+}
+
+/* SNACK SELECT */
+.snack-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.snack-select:focus {
+  border-color: #4f46e5;
 }

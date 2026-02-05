@@ -1,10 +1,25 @@
 "use client";
 import "./Student.css";
 import Link from "next/link";
+import { useState } from "react";
 import { useStudentContext } from "@/context/StudentContext";
 
 export default function Student() {
   const { students, addStudent } = useStudentContext();
+
+  // ✅ NEW: modal + input state
+  const [showModal, setShowModal] = useState(false);
+  const [studentName, setStudentName] = useState("");
+
+  function handleAddStudent() {
+    if (!studentName.trim()) return;
+
+    console.log(studentName);
+    addStudent(studentName);
+    setStudentName("");
+    setShowModal(false);
+  }
+
   return (
     <section className="students-page">
       <header className="students-header">
@@ -15,11 +30,13 @@ export default function Student() {
           </p>
         </div>
 
-        <button className="add-student-btn" onClick={addStudent}>
+        {/* ✅ CHANGED: open modal instead of direct add */}
+        <button className="add-student-btn" onClick={() => setShowModal(true)}>
           + Add Student
         </button>
       </header>
 
+      {/* STUDENT LIST */}
       <div className="students-list">
         {students.map((student) => (
           <Link
@@ -41,6 +58,34 @@ export default function Student() {
           </Link>
         ))}
       </div>
+
+      {/* ✅ ADD STUDENT MODAL */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Add Student</h3>
+
+            <input
+              type="text"
+              placeholder="Student name"
+              value={studentName}
+              onChange={(e) => setStudentName(e.target.value)}
+            />
+
+            <div className="modal-actions">
+              <button className="modal-save" onClick={handleAddStudent}>
+                Save
+              </button>
+              <button
+                className="modal-cancel"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
