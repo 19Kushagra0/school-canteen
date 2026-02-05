@@ -17,6 +17,19 @@ const SNACKS_DATA = [
 
 const StudentContext = createContext();
 
+// ✅ NEW: Shared snacks data
+const SNACKS_DATA = [
+  { id: 1, name: "Samosa", price: 20, ordersCount: 15 },
+  { id: 2, name: "Sandwich", price: 40, ordersCount: 23 },
+  { id: 3, name: "Cold Coffee", price: 50, ordersCount: 18 },
+  { id: 4, name: "Burger", price: 60, ordersCount: 12 },
+  { id: 5, name: "Pizza Slice", price: 80, ordersCount: 8 },
+  { id: 6, name: "French Fries", price: 45, ordersCount: 12 },
+  { id: 7, name: "Noodles", price: 70, ordersCount: 7 },
+  { id: 8, name: "Juice", price: 30, ordersCount: 20 },
+  { id: 9, name: "Water Bottle", price: 20, ordersCount: 20 },
+];
+
 export function StudentProvider({ children }) {
   // --- State ---
   const [students, setStudents] = useState([
