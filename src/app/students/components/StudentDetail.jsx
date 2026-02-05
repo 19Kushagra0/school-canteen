@@ -7,19 +7,23 @@ import { useStudentContext } from "@/context/StudentContext";
 import { useState } from "react";
 
 export default function StudentDetail() {
-  // ✅ CHANGED: get snacks from context
   const { students, orders, snacks, addOrder } = useStudentContext();
+
+  // --- State ---
   const [showOrderModal, setShowOrderModal] = useState(false);
-  // ✅ CHANGED: track snackId instead of name
   const [snackId, setSnackId] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   const params = useParams();
   const studentId = Number(params.id);
 
-  const student = students.find((s) => s.id === studentId);
+  const student = students.find((s) => {
+    return s.id === studentId;
+  });
 
-  const studentOrders = orders.filter((order) => order.studentId === studentId);
+  const studentOrders = orders.filter((order) => {
+    return order.studentId === studentId;
+  });
 
   if (!student) {
     return <p>Student not found</p>;
@@ -50,22 +54,26 @@ export default function StudentDetail() {
           <p>No orders yet</p>
         ) : (
           <div className="orders-list">
-            {studentOrders.map((order) => (
-              <div className="order-row" key={order.id}>
-                <div>
-                  <p className="order-snack">{order.snack}</p>
-                  <span className="order-qty">Qty: {order.quantity}</span>
+            {studentOrders.map((order) => {
+              return (
+                <div className="order-row" key={order.id}>
+                  <div>
+                    <p className="order-snack">{order.snack}</p>
+                    <span className="order-qty">Qty: {order.quantity}</span>
+                  </div>
+                  <span className="order-amount">₹{order.amount}</span>
                 </div>
-                <span className="order-amount">₹{order.amount}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
 
       <button
         className="place-order-btn"
-        onClick={() => setShowOrderModal(true)}
+        onClick={() => {
+          return setShowOrderModal(true);
+        }}
       >
         Place New Order
       </button>
@@ -76,25 +84,30 @@ export default function StudentDetail() {
           <div className="modal">
             <h3>Add Order</h3>
 
-            {/* ✅ CHANGED: Dropdown for snacks */}
             <select
               value={snackId}
-              onChange={(e) => setSnackId(e.target.value)}
+              onChange={(e) => {
+                return setSnackId(e.target.value);
+              }}
               className="snack-select"
             >
               <option value="">Select a snack</option>
-              {snacks.map((snack) => (
-                <option key={snack.id} value={snack.id}>
-                  {snack.name} - ₹{snack.price}
-                </option>
-              ))}
+              {snacks.map((snack) => {
+                return (
+                  <option key={snack.id} value={snack.id}>
+                    {snack.name} - ₹{snack.price}
+                  </option>
+                );
+              })}
             </select>
 
             <input
               type="number"
               min="1"
               value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
+              onChange={(e) => {
+                return setQuantity(Number(e.target.value));
+              }}
             />
 
             <div className="modal-actions">
@@ -113,7 +126,9 @@ export default function StudentDetail() {
 
               <button
                 className="modal-cancel"
-                onClick={() => setShowOrderModal(false)}
+                onClick={() => {
+                  return setShowOrderModal(false);
+                }}
               >
                 Cancel
               </button>

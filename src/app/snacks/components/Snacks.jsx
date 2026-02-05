@@ -16,25 +16,25 @@ export default function Snacks() {
       </header>
 
       <div className="snacks-list">
-        {snacks.map((snack) => (
-          <div key={snack.id} className="snack-card">
-            <div className="snack-info">
-              <h2 className="snack-name">{snack.name}</h2>
-              <span className="snack-orders">{snack.ordersCount} orders</span>
+        {snacks.map((snack) => {
+          return (
+            <div key={snack.id} className="snack-card">
+              <div className="snack-info">
+                <h2 className="snack-name">{snack.name}</h2>
+                <span className="snack-orders"> </span>
+              </div>
+
+              <div className="snack-footer">
+                <span className="snack-price">₹{snack.price}</span>
+                {/* Button removed as requested */}
+              </div>
             </div>
-
-            <div className="snack-footer">
-              <span className="snack-price">₹{snack.price}</span>
-              {/* Button removed as requested */}
-            </div>
-          </div>
-        ))}
+          );
+        })}
 
         <div className="snack-card ghost" />
         <div className="snack-card ghost" />
         <div className="snack-card ghost" />
-
-        {/* <div className="snack-card ghost" /> */}
       </div>
     </section>
   );
