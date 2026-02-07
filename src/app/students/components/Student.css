@@ -17,12 +17,14 @@
 }
 
 .students-title {
-  font-size: 32px;
-  font-weight: 700;
   margin-bottom: 6px;
   color: #111827;
   letter-spacing: -0.02em;
+
+   font-size: 2rem;
+  font-weight: bold;
 }
+
 
 .students-subtitle {
   font-size: 16px;
@@ -63,15 +65,23 @@
   padding: 20px;
   border-radius: 12px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 
   transition: box-shadow 0.25s ease, transform 0.25s ease;
 
   cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-height: 100px; /* Forces the card to stay a certain size */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .student-card:hover {
@@ -86,15 +96,17 @@
 }
 
 .student-name {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #111827;
+
+  font-size: 1.25rem !important; 
+  font-weight: 700;
+  margin: 0;
+  color: #1a202c;
 }
 
 .student-code {
-  font-size: 14px;
-  color: #6b7280;
+
+    font-size: 0.875rem !important;
+  color: #718096;
 }
 
 /* RIGHT */
@@ -113,6 +125,10 @@
   font-size: 13px;
   color: #6b7280;
 }
+
+
+
+
 
 /* RESPONSIVE */
 @media screen and (max-width: 640px) {
