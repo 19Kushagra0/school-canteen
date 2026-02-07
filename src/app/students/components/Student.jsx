@@ -3,7 +3,7 @@
 import "./Student.css";
 import Link from "next/link";
 import { useState } from "react";
-import { useStudent } from "@/context//StudentContext";
+import { useStudent } from "@/context/StudentContext";
 
 export default function Student() {
   const { students, addStudents } = useStudent();

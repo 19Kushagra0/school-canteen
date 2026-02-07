@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 .snacks-page {
   padding: 40px;
   min-height: 100vh;
   background-color: #f5f7fb;
-  font-family: "Inter", sans-serif;
 
   /* FONT ADDITIONS */
   line-height: 1.5;
@@ -40,6 +38,7 @@
   gap: 20px;
 
   /* background-color: red; */
+  
 }
 
 /* CARD */
@@ -105,6 +104,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
 }
 
 .snack-price {
