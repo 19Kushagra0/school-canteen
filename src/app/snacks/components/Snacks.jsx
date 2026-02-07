@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import "./Snacks.css";
 import { useStudent } from "@/context/StudentContext";
@@ -18,16 +19,18 @@ export default function Snacks() {
       <div className="snacks-list">
         {SNACKS_DATA.map((snack, index) => {
           return (
-            <div key={index} className="snack-card">
-              <div className="snack-info">
-                <h2 className="snack-name">{snack.name}</h2>
-                <span className="snack-orders"> </span>
-              </div>
+            <Link href={`/students`} key={index}>
+              <div className="snack-card">
+                <div className="snack-info">
+                  <h2 className="snack-name">{snack.name}</h2>
+                  <span className="snack-orders"> </span>
+                </div>
 
-              <div className="snack-footer">
-                <span className="snack-price">₹{snack.price}</span>
+                <div className="snack-footer">
+                  <span className="snack-price">₹{snack.price}</span>
+                </div>
               </div>
-            </div>
+            </Link>
           );
         })}
         <div className="snack-card ghost" />
