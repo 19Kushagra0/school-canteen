@@ -2,7 +2,11 @@
   padding: 40px;
   min-height: 100vh;
   background-color: #f5f7fb;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 
   color: black;
 }
@@ -51,7 +55,7 @@
   font-weight: 600;
 }
 .student-total {
-    color: black;
+  color: black;
 }
 .student-total strong {
   font-size: 22px;
@@ -124,7 +128,7 @@
 .place-order-btn:hover {
   background-color: #4338ca;
 }
-.orders-section p{
+.orders-section p {
   color: black;
 }
 /* RESPONSIVE */
@@ -179,7 +183,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.modal option{
+.modal option {
   /* background-color: red; */
 
   border-radius: 10px;
@@ -231,3 +235,8 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 500px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+}
