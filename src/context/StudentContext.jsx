@@ -1,8 +1,11 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-// --- Constants ---
+// create context
+const StudentContext = createContext();
+
+// snacks data (static, safe for SSR)
 const SNACKS_DATA = [
   { id: 1, name: "Samosa", price: 20 },
   { id: 2, name: "Sandwich", price: 40 },
@@ -15,96 +18,99 @@ const SNACKS_DATA = [
   { id: 9, name: "Water Bottle", price: 20 },
 ];
 
-const StudentContext = createContext();
-
-// ✅ NEW: Shared snacks data
-const SNACKS_DATA = [
-  { id: 1, name: "Samosa", price: 20, ordersCount: 15 },
-  { id: 2, name: "Sandwich", price: 40, ordersCount: 23 },
-  { id: 3, name: "Cold Coffee", price: 50, ordersCount: 18 },
-  { id: 4, name: "Burger", price: 60, ordersCount: 12 },
-  { id: 5, name: "Pizza Slice", price: 80, ordersCount: 8 },
-  { id: 6, name: "French Fries", price: 45, ordersCount: 12 },
-  { id: 7, name: "Noodles", price: 70, ordersCount: 7 },
-  { id: 8, name: "Juice", price: 30, ordersCount: 20 },
-  { id: 9, name: "Water Bottle", price: 20, ordersCount: 20 },
-];
-
 export function StudentProvider({ children }) {
-  // --- State ---
+  // students (default state for SSR + hydration)
   const [students, setStudents] = useState([
-    { id: 1, name: "Rahul Sharma", referralCode: "EDZ123", totalSpent: 320 },
-    { id: 2, name: "Priya Singh", referralCode: "EDZ456", totalSpent: 540 },
-    { id: 3, name: "Amit Verma", referralCode: "EDZ789", totalSpent: 210 },
+    { id: 1, name: "Rahul Sharma", referralCode: "EDZ1", totalSpent: 90 },
+    { id: 2, name: "Priya Singh", referralCode: "EDZ2", totalSpent: 60 },
+    { id: 3, name: "Amit Verma", referralCode: "EDZ3", totalSpent: 0 },
   ]);
 
-  const [orders, setOrders] = useState([
-    { id: 1, studentId: 1, snack: "Samosa", quantity: 2, amount: 40 },
-    { id: 2, studentId: 1, snack: "Cold Coffee", quantity: 1, amount: 50 },
-    { id: 3, studentId: 2, snack: "Burger", quantity: 1, amount: 60 },
-  ]);
+  // orders (empty by default)
+  const [orders, setOrders] = useState([]);
 
-  // --- Actions ---
+  // flag to prevent hydration mismatch
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  /**
-   * Added a new order for a specific student.
-   * Finds the snack price effectively to calculate the total amount.
-   */
-  function addOrder(studentId, snackId, quantity) {
-    const snack = SNACKS_DATA.find((s) => {
-      return s.id === Number(snackId);
-    });
+  // load from localStorage AFTER client mount
+  useEffect(() => {
+    const savedStudents = localStorage.getItem("students");
+    const savedOrders = localStorage.getItem("orders");
 
-    if (!snack) return;
+    if (savedStudents) {
+      setStudents(JSON.parse(savedStudents));
+    }
 
-    const newOrder = {
-      id: Date.now(),
-      studentId: studentId,
-      snack: snack.name,
-      quantity: quantity,
-      amount: snack.price * quantity,
-    };
+    if (savedOrders) {
+      setOrders(JSON.parse(savedOrders));
+    }
 
-    setOrders((prev) => {
-      return [...prev, newOrder];
-    });
-  }
+    setIsLoaded(true);
+  }, []);
 
-  function addStudent(name) {
+  // save students to localStorage
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("students", JSON.stringify(students));
+    }
+  }, [students, isLoaded]);
+
+  // save orders to localStorage
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("orders", JSON.stringify(orders));
+    }
+  }, [orders, isLoaded]);
+
+  // add student
+  const addStudents = (studentName) => {
     const newStudent = {
-      id: Date.now(),
-      name: name,
-      referralCode: "EDZ" + Math.floor(Math.random() * 1000),
+      id: students.length + 1,
+      name: studentName,
+      referralCode: `EDZ${students.length + 1}`,
       totalSpent: 0,
     };
 
-    setStudents((prev) => {
-      return [...prev, newStudent];
+    setStudents([...students, newStudent]);
+  };
+
+  // add order
+  const addOrders = (order) => {
+    const newOrder = {
+      id: orders.length + 1,
+      studentId: order.studentId,
+      snack: order.snack,
+      quantity: order.quantity,
+      amount: order.amount,
+    };
+
+    // add order
+    setOrders([...orders, newOrder]);
+
+    // update ONLY the student who placed this order
+    const updatedStudents = students.map((s) => {
+      if (s.id === order.studentId) {
+        return { ...s, totalSpent: s.totalSpent + order.amount };
+      }
+      return s;
     });
+
+    setStudents(updatedStudents);
+  };
+
+  // prevent render until client data is ready
+  if (!isLoaded) {
+    return null; // or a loading spinner
   }
-
-  // --- Derived State ---
-  // Calculates the total spent for each student based on their order history.
-  // This ensures the "Total Spent" is always accurate and up-to-date.
-  const studentsWithTotal = students.map((student) => {
-    const studentOrders = orders.filter((o) => {
-      return o.studentId === student.id;
-    });
-    const totalSpent = studentOrders.reduce((sum, order) => {
-      return sum + order.amount;
-    }, 0);
-
-    return { ...student, totalSpent };
-  });
 
   return (
     <StudentContext.Provider
       value={{
-        students: studentsWithTotal,
+        SNACKS_DATA,
+        students,
         orders,
-        snacks: SNACKS_DATA,
-        addOrder,
-        addStudent,
+        addStudents,
+        addOrders,
       }}
     >
       {children}
@@ -112,7 +118,7 @@ export function StudentProvider({ children }) {
   );
 }
 
-// --- Hook ---
-export function useStudentContext() {
+// custom hook
+export function useStudent() {
   return useContext(StudentContext);
 }

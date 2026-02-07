@@ -3,22 +3,30 @@
 import "./Student.css";
 import Link from "next/link";
 import { useState } from "react";
-import { useStudentContext } from "@/context/StudentContext";
+import { useStudent } from "@/context//StudentContext";
 
 export default function Student() {
-  const { students, addStudent } = useStudentContext();
-
-  // --- State ---
+  const { students, addStudents } = useStudent();
+  const [studentValue, setStudentValue] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [studentName, setStudentName] = useState("");
 
-  function handleAddStudent() {
-    if (!studentName.trim()) return;
+  const showModalHandler = () => {
+    setShowModal(!showModal);
+  };
 
-    addStudent(studentName);
-    setStudentName("");
-    setShowModal(false);
-  }
+  const studentValueHandler = (e) => {
+    setStudentValue(e.target.value);
+  };
+
+  const handleAddStudent = () => {
+    if (!studentValue.trim()) {
+      return;
+    }
+    addStudents(studentValue);
+
+    setStudentValue("");
+    setShowModal();
+  };
 
   return (
     <section className="students-page">
@@ -30,24 +38,19 @@ export default function Student() {
           </p>
         </div>
 
-        <button
-          className="add-student-btn"
-          onClick={() => {
-            return setShowModal(true);
-          }}
-        >
+        <button onClick={showModalHandler} className="add-student-btn">
           + Add Student
         </button>
       </header>
 
       {/* STUDENT LIST */}
       <div className="students-list">
-        {students.map((student) => {
+        {students.map((student, index) => {
           return (
             <Link
+              key={index}
               href={`/students/${student.id}`}
               className="student-card"
-              key={student.id}
             >
               <div className="student-info">
                 <h2 className="student-name">{student.name}</h2>
@@ -65,31 +68,23 @@ export default function Student() {
         })}
       </div>
 
-      {/* ADD STUDENT MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>Add Student</h3>
 
             <input
+              onChange={studentValueHandler}
+              value={studentValue}
               type="text"
               placeholder="Student name"
-              value={studentName}
-              onChange={(e) => {
-                return setStudentName(e.target.value);
-              }}
             />
 
             <div className="modal-actions">
-              <button className="modal-save" onClick={handleAddStudent}>
+              <button onClick={handleAddStudent} className="modal-save">
                 Save
               </button>
-              <button
-                className="modal-cancel"
-                onClick={() => {
-                  return setShowModal(false);
-                }}
-              >
+              <button onClick={showModalHandler} className="modal-cancel">
                 Cancel
               </button>
             </div>
