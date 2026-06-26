@@ -38,7 +38,6 @@
   gap: 20px;
 
   /* background-color: red; */
-  
 }
 
 /* CARD */
@@ -104,7 +103,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 }
 
 .snack-price {
@@ -116,7 +114,7 @@
   letter-spacing: -0.01em;
 }
 
-.order-btn {
+.snack-button {
   padding: 10px 16px;
   border-radius: 8px;
   border: none;
@@ -133,7 +131,7 @@
   text-transform: uppercase;
 }
 
-.order-btn:hover {
+.snack-button:hover {
   background-color: #4338ca;
 }
 @media screen and (max-width:2000px) {
@@ -183,4 +181,22 @@
   .snacks-title {
     text-align: center;
   }
+}
+
+/* SNACK SELECT */
+.snack-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.snack-select:focus {
+  border-color: #4f46e5;
 }
