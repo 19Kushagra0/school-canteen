@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import styles from "./Snacks.module.css";
 import stylesModal from "@/app/students/components/StudentModal.module.css";
@@ -63,25 +64,18 @@ export default function Snacks() {
       <div className={styles["snacks-list"]}>
         {SNACKS_DATA.map((snack, index) => {
           return (
-            <div key={index} className={styles["snack-card"]}>
-              <div className={styles["snack-info"]}>
-                <h2 className={styles["snack-name"]}>{snack.name}</h2>
-                <span className={styles["snack-orders"]}></span>
-              </div>
+            <Link href={`/students`} key={index}>
+              <div className="snack-card">
+                <div className="snack-info">
+                  <h2 className="snack-name">{snack.name}</h2>
+                  <span className="snack-orders"> </span>
+                </div>
 
-              <div className={styles["snack-footer"]}>
-                <span className={styles["snack-price"]}>₹{snack.price}</span>
-                <button
-                  onClick={() => {
-                    showModalHandler();
-                    setSelectedSnack(snack);
-                  }}
-                  className={styles["snack-button"]}
-                >
-                  Order Now
-                </button>
+                <div className="snack-footer">
+                  <span className="snack-price">₹{snack.price}</span>
+                </div>
               </div>
-            </div>
+            </Link>
           );
         })}
 
