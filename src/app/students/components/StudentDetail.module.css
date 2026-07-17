@@ -2,7 +2,11 @@
   padding: 40px;
   min-height: 100vh;
   background-color: #f5f7fb;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 
   color: black;
 }
@@ -51,7 +55,7 @@
   font-weight: 600;
 }
 .student-detail-page .student-total {
-    color: black;
+  color: black;
 }
 .student-detail-page .student-total strong {
   font-size: 22px;
@@ -124,7 +128,7 @@
 .student-detail-page .place-order-btn:hover {
   background-color: #4338ca;
 }
-.student-detail-page .orders-section p{
+.student-detail-page .orders-section p {
   color: black;
 }
 /* RESPONSIVE */
@@ -179,7 +183,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.student-detail-page .modal option{
+.student-detail-page .modal option {
   /* background-color: red; */
 
   border-radius: 10px;

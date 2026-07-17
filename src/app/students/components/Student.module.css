@@ -2,7 +2,11 @@
   padding: 40px;
   min-height: 100vh;
   background-color: #f5f7fb;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   line-height: 1.5;
 
   color: black;
@@ -21,10 +25,9 @@
   color: #111827;
   letter-spacing: -0.02em;
 
-   font-size: 2rem;
+  font-size: 2rem;
   font-weight: bold;
 }
-
 
 .students-page .students-subtitle {
   font-size: 16px;
@@ -64,19 +67,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   /* min-height: 100px; Forces the card to stay a certain size */
   padding: 20px 30px;
   box-sizing: border-box; /* IMPORTANT: Ensures padding doesn't add to width/height unexpectedly */
-  
+
   background-color: #ffffff;
   border-radius: 12px;
-  
+
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-  
+
   text-decoration: none;
   cursor: pointer;
-  
+
   transition: all 0.25s ease;
 }
 
@@ -122,7 +125,6 @@
   font-size: 13px;
   color: #6b7280;
 }
-
 
 /* RESPONSIVE */
 @media screen and (max-width: 640px) {
@@ -207,7 +209,6 @@
   border-radius: 6px;
   cursor: pointer;
 }
-
 
 @media screen and (max-width: 500px) {
   .modal-overlay {

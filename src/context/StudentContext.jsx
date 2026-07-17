@@ -1,11 +1,11 @@
 "use client";
+import { createContext, useState } from "react";
+import { useContext } from "react";
 
-import { createContext, useContext, useState, useEffect } from "react";
-
-// create context
+// create box
 const StudentContext = createContext();
 
-// snacks data (static, safe for SSR)
+// snacks data
 const SNACKS_DATA = [
   { id: 1, name: "Samosa", price: 20 },
   { id: 2, name: "Sandwich", price: 40 },
@@ -19,62 +19,30 @@ const SNACKS_DATA = [
 ];
 
 export function StudentProvider({ children }) {
-  // students (default state for SSR + hydration)
+  // students
   const [students, setStudents] = useState([
     { id: 1, name: "Rahul Sharma", referralCode: "EDZ1", totalSpent: 90 },
     { id: 2, name: "Priya Singh", referralCode: "EDZ2", totalSpent: 60 },
     { id: 3, name: "Amit Verma", referralCode: "EDZ3", totalSpent: 0 },
   ]);
 
-  // orders (empty by default)
-  const [orders, setOrders] = useState([]);
-
-  // flag to prevent hydration mismatch
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // load from localStorage AFTER client mount
-  useEffect(() => {
-    const savedStudents = localStorage.getItem("students");
-    const savedOrders = localStorage.getItem("orders");
-
-    if (savedStudents) {
-      setStudents(JSON.parse(savedStudents));
-    }
-
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
-    }
-
-    setIsLoaded(true);
-  }, []);
-
-  // save students to localStorage
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("students", JSON.stringify(students));
-    }
-  }, [students, isLoaded]);
-
-  // save orders to localStorage
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("orders", JSON.stringify(orders));
-    }
-  }, [orders, isLoaded]);
-
-  // add student
-  const addStudents = (studentName) => {
+  const addStudents = (student) => {
     const newStudent = {
       id: students.length + 1,
-      name: studentName,
+      name: student,
       referralCode: `EDZ${students.length + 1}`,
       totalSpent: 0,
     };
-
     setStudents([...students, newStudent]);
   };
 
-  // add order
+  // orders
+  const [orders, setOrders] = useState([
+    { id: 1, studentId: 1, snack: "Samosa", quantity: 2, amount: 40 },
+    { id: 2, studentId: 1, snack: "Cold Coffee", quantity: 1, amount: 50 },
+    { id: 3, studentId: 2, snack: "Burger", quantity: 1, amount: 60 },
+  ]);
+
   const addOrders = (order) => {
     const newOrder = {
       id: orders.length + 1,
@@ -83,42 +51,32 @@ export function StudentProvider({ children }) {
       quantity: order.quantity,
       amount: order.amount,
     };
-
-    // add order
     setOrders([...orders, newOrder]);
 
-    // update ONLY the student who placed this order
+    // 2. NOW, update that specific student's total money
     const updatedStudents = students.map((s) => {
       if (s.id === order.studentId) {
+        // If this is the student who ordered, add the new amount to their old total
         return { ...s, totalSpent: s.totalSpent + order.amount };
       }
+      // If it's not them, don't change anything
       return s;
     });
 
     setStudents(updatedStudents);
   };
 
-  // prevent render until client data is ready
-  if (!isLoaded) {
-    return null; // or a loading spinner
-  }
-
   return (
+    // putting array in box
     <StudentContext.Provider
-      value={{
-        SNACKS_DATA,
-        students,
-        orders,
-        addStudents,
-        addOrders,
-      }}
+      value={{ SNACKS_DATA, students, addStudents, orders, addOrders }}
     >
       {children}
     </StudentContext.Provider>
   );
 }
 
-// custom hook
+// export the box
 export function useStudent() {
   return useContext(StudentContext);
 }

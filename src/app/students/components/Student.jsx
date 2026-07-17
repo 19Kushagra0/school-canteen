@@ -1,6 +1,7 @@
 "use client";
 
-import "./Student.css";
+import styles from "./Student.module.css";
+import stylesModal from "./StudentModal.module.css";
 import Link from "next/link";
 import { useState } from "react";
 import { useStudent } from "@/context/StudentContext";
@@ -19,58 +20,59 @@ export default function Student() {
   };
 
   const handleAddStudent = () => {
-    if (!studentValue.trim()) {
-      return;
-    }
-    addStudents(studentValue);
+    if (!studentValue.trim()) return;
 
+    addStudents(studentValue);
     setStudentValue("");
-    setShowModal();
+    setShowModal(false);
   };
 
   return (
-    <section className="students-page">
-      <header className="students-header">
+    <section className={styles["students-page"]}>
+      <header className={styles["students-header"]}>
         <div>
-          <h1 className="students-title">Students</h1>
-          <p className="students-subtitle">
+          <h1 className={styles["students-title"]}>Students</h1>
+          <p className={styles["students-subtitle"]}>
             View students and track their spending
           </p>
         </div>
 
-        <button onClick={showModalHandler} className="add-student-btn">
+        <button
+          onClick={showModalHandler}
+          className={styles["add-student-btn"]}
+        >
           + Add Student
         </button>
       </header>
 
       {/* STUDENT LIST */}
-      <div className="students-list">
-        {students.map((student, index) => {
-          return (
-            <Link
-              key={index}
-              href={`/students/${student.id}`}
-              className="student-card"
-            >
-              <div className="student-info">
-                <h2 className="student-name">{student.name}</h2>
-                <span className="student-code">
-                  Referral Code: {student.referralCode}
-                </span>
-              </div>
+      <div className={styles["students-list"]}>
+        {students.map((student, index) => (
+          <Link
+            key={index}
+            href={`/students/${student.id}`}
+            className={styles["student-card"]}
+          >
+            <div className={styles["student-info"]}>
+              <h2 className={styles["student-name"]}>{student.name}</h2>
+              <span className={styles["student-code"]}>
+                Referral Code: {student.referralCode}
+              </span>
+            </div>
 
-              <div className="student-meta">
-                <span className="student-spent">₹{student.totalSpent}</span>
-                <span className="spent-label">Total Spent</span>
-              </div>
-            </Link>
-          );
-        })}
+            <div className={styles["student-meta"]}>
+              <span className={styles["student-spent"]}>
+                ₹{student.totalSpent}
+              </span>
+              <span className={styles["spent-label"]}>Total Spent</span>
+            </div>
+          </Link>
+        ))}
       </div>
 
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div className={stylesModal["modal-overlay"]}>
+          <div className={stylesModal.modal}>
             <h3>Add Student</h3>
 
             <input
@@ -80,11 +82,17 @@ export default function Student() {
               placeholder="Student name"
             />
 
-            <div className="modal-actions">
-              <button onClick={handleAddStudent} className="modal-save">
+            <div className={stylesModal["modal-actions"]}>
+              <button
+                onClick={handleAddStudent}
+                className={stylesModal["modal-save"]}
+              >
                 Save
               </button>
-              <button onClick={showModalHandler} className="modal-cancel">
+              <button
+                onClick={showModalHandler}
+                className={stylesModal["modal-cancel"]}
+              >
                 Cancel
               </button>
             </div>
